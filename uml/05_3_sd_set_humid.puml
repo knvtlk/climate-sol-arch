@@ -1,0 +1,22 @@
+@startuml 05_3_sd_set_humid
+
+actor "End User" as user
+participant "climate_control_hmi_services" as hmi
+participant "climate_control_services" as clima
+participant "sensor_data_collector" as sens
+participant "air_conditioner_actuator" as cond
+
+autonumber
+user->hmi: Set humidity (zone, requestedHumidity)
+hmi->clima: setHumidity(zone, requestedHumidity)
+
+loop while currentHumidity != requestedHumidity
+    clima->clima: Check current humidity
+    clima->clima: Calculate required adaptation
+    clima->cond: [CAN] actuator_control_climate
+    loop each 5 seconds
+        sens->>clima: [CAN] sensor_temp_humid
+    end
+end
+
+@enduml

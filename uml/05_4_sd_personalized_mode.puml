@@ -1,0 +1,37 @@
+@startuml 05_4_sd_personalized_mode
+
+actor "End User" as user
+participant "climate_control_hmi_services" as hmi
+participant "climate_control_services" as clima
+participant "sensor_data_collector" as sens
+participant "air_conditioner_actuator" as cond
+
+autonumber
+== Enable personalized mode ==
+user->hmi: Enable personilized mode (zone)
+hmi->clima: personilized_mode(zone, on=True)
+clima->clima: Check user preferences
+
+loop while currentClimate != preferedClimate
+    loop each 5 seconds
+        sens->>clima: [CAN] sensor_temp_humid
+    end
+    clima->clima: Check current humidity
+    clima->clima: Calculate required adaptation
+    clima->cond: [CAN] actuator_control_climate
+end
+
+== Climate adjustments ==
+
+ref over user, cond
+05_2_sd_set_temp
+end ref
+clima->clima: Persist Climate values
+clima->clima: Calculate Climate preferences
+
+== Disable personalized mode ==
+user->hmi: Disable personilized mode (zone)
+hmi->clima: personilized_mode(zone, on=False)
+clima->clima: Disable personalized mode
+
+@enduml

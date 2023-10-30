@@ -1,0 +1,22 @@
+@startuml 05_2_sd_set_temp
+
+actor "End User" as user
+participant "climate_control_hmi_services" as hmi
+participant "climate_control_services" as clima
+participant "sensor_data_collector" as sens
+participant "air_conditioner_actuator" as cond
+
+autonumber
+user->hmi: Set temperature (zone, requestedTemp)
+hmi->clima: setTemperature(zone, requestedTemp)
+
+loop while currentTemp != requestedTemp
+    clima->clima: Check current temperature
+    clima->clima: Calculate required adaptation
+    clima->cond: [CAN] actuator_control_climate
+    loop each 5 seconds
+        sens->>clima: [CAN] sensor_temp_humid
+    end
+end
+
+@enduml
