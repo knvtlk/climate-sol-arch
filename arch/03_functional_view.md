@@ -131,7 +131,7 @@ Status: Draft
 
 Smart Climate Control System shall support separate control for rear passengers' zone.
 
-### SYS_SCC_REQ_ zone sync
+### SYS_SCC_REQ_018
 Type: FR
 Status: Draft
 
