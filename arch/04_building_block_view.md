@@ -23,6 +23,7 @@ Stereotypes:
 - `«high»` -- in-vehicle software which is close to end-user interaction
 
 SW components:
+TODO: Add traceability
 - `climate_control_hmi_service` -- works with GUI to provide end user with control and monitoring interface
 - `ios_app` -- might work via ATOM interface or Apple CarPlay
 - `android_app` -- might work via ATOM interface or Android Auto
